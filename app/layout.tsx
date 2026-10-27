@@ -11,8 +11,12 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: 'فلك Falak — مشاهدة أحدث الأفلام والمسلسلات مترجمة مجاناً بجودة 4K/HD',
-  description: 'منصة فلك (Falak TV) لمشاهدة وتحميل الأفلام والمسلسلات المترجمة والمدبلجة أونلاين مجاناً بأعلى جودة HD و 4K.',
+  title: 'MovieStream — فلك Falak',
+  description: 'Streaming platform for movies and series with auto Arabic subtitles.',
+  openGraph: {
+    title: 'MovieStream — فلك Falak',
+    description: 'Streaming platform for movies and series with auto Arabic subtitles.',
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
