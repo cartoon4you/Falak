@@ -1,6 +1,10 @@
 import { NextResponse } from 'next/server';
 
-const TMDB_ACCESS_TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjNjBmMDc1Y2YzNmM2ZGZiMTM2YzNjMGFlNTY0ZDQ2MSIsIm5iZiI6MTc4NjkxNDAzNC4xMjgsInN1YiI6IjZhODIyNGYyMjYxNDgxNDlkZTc2OGM1MiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.h-UBf7qsxc6caT3NTjZ4qBpeOqMhzndlqISR1W_79V8';
+const RAW_ENV_TOKEN = process.env.TMDB_ACCESS_TOKEN?.trim();
+const TMDB_ACCESS_TOKEN =
+  RAW_ENV_TOKEN && RAW_ENV_TOKEN.split('.').length === 3
+    ? RAW_ENV_TOKEN
+    : 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjNjBmMDc1Y2YzNmM2ZGZiMTM2YzNjMGFlNTY0ZDQ2MSIsIm5iZiI6MTc4NjkxNDAzNC4xMjgsInN1YiI6IjZhODIyNGYyMjYxNDgxNDlkZTc2OGM1MiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.h-UBf7qsxc6caT3NTjZ4qBpeOqMhzndlqISR1W_79V8';
 const TMDB_BASE = 'https://api.themoviedb.org/3';
 
 export async function GET(request: Request, { params }: { params: Promise<{ path: string[] }> }) {
