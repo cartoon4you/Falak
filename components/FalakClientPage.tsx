@@ -9,6 +9,7 @@ import GenreChips from '@/components/GenreChips';
 import DetailPanel from '@/components/DetailPanel';
 import Player from '@/components/Player';
 import MediaCard from '@/components/MediaCard';
+import UnauthorizedDomainModal from '@/components/UnauthorizedDomainModal';
 import { fetchTMDB } from '@/lib/tmdb';
 import { auth, googleProvider, db } from '@/lib/firebase';
 import { signInWithPopup, signOut, onAuthStateChanged, User } from 'firebase/auth';
@@ -60,6 +61,7 @@ export default function FalakClientPage({ initialSearchParams }: FalakClientPage
   // Permalink & Loading Feedback State
   const [isInitialPermalinkLoading, setIsInitialPermalinkLoading] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [unauthorizedDomain, setUnauthorizedDomain] = useState<string | null>(null);
 
   const selectedMediaRef = useRef<any>(selectedMedia);
   useEffect(() => {
@@ -201,8 +203,14 @@ export default function FalakClientPage({ initialSearchParams }: FalakClientPage
     try {
       await signInWithPopup(auth, googleProvider);
     } catch (error: any) {
-      if (error?.code !== 'auth/popup-closed-by-user') {
-        console.error('Login error:', error);
+      if (error?.code === 'auth/unauthorized-domain') {
+        const currentHost = typeof window !== 'undefined' ? window.location.hostname : '';
+        setUnauthorizedDomain(currentHost || 'ais-dev-...run.app');
+      } else if (error?.code === 'auth/popup-blocked') {
+        showAppToast(lang === 'ar' ? 'تم حظر النافذة المنبثقة، يرجى السماح بالنوافذ لتسجيل الدخول' : 'Popup blocked, please allow popups to sign in');
+      } else if (error?.code !== 'auth/popup-closed-by-user' && error?.code !== 'auth/cancelled-popup-request') {
+        console.warn('Login warning:', error?.message || error);
+        showAppToast(lang === 'ar' ? 'تعذر تسجيل الدخول، يرجى المحاولة لاحقاً' : 'Login failed, please try again');
       }
     }
   };
@@ -1058,6 +1066,15 @@ export default function FalakClientPage({ initialSearchParams }: FalakClientPage
           onClose={handleClosePlayer}
           onSelectEpisode={handleSelectEpisode}
           lang={lang}
+        />
+      )}
+
+      {/* Unauthorized Domain Guide Modal */}
+      {unauthorizedDomain && (
+        <UnauthorizedDomainModal
+          domain={unauthorizedDomain}
+          lang={lang}
+          onClose={() => setUnauthorizedDomain(null)}
         />
       )}
     </div>
