@@ -10,6 +10,7 @@ import DetailPanel from '@/components/DetailPanel';
 import Player from '@/components/Player';
 import MediaCard from '@/components/MediaCard';
 import UnauthorizedDomainModal from '@/components/UnauthorizedDomainModal';
+import Hero from '@/components/Hero';
 import { fetchTMDB } from '@/lib/tmdb';
 import { auth, googleProvider, db } from '@/lib/firebase';
 import { signInWithPopup, signOut, onAuthStateChanged, User } from 'firebase/auth';
@@ -672,51 +673,7 @@ export default function FalakClientPage({ initialSearchParams }: FalakClientPage
         {activeTab === 'home' && (
           <div>
             {/* Hero Section */}
-            <section className="relative overflow-hidden min-h-[380px] md:min-h-[460px] flex items-center border-b border-white/5">
-              <div className="absolute inset-0 z-0">
-                <img
-                  src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=1920&auto=format&fit=crop"
-                  alt="Cinema background"
-                  className="w-full h-full object-cover object-center filter brightness-[0.25]"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#07080b] via-[#07080b]/70 to-transparent" />
-                <div className="absolute inset-0 bg-gradient-to-r from-[#07080b]/90 via-transparent to-[#07080b]/90" />
-              </div>
-
-              <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 w-full text-center md:text-start flex flex-col items-center md:items-start">
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-red-600/10 border border-red-500/20 text-red-400 text-xs font-semibold mb-4 backdrop-blur-sm">
-                  <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-                  {t.hero_badge || 'سيرفرات سريعة بدقة 4K و HD مع ترجمة احترافية'}
-                </div>
-                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight max-w-3xl mb-4">
-                  {t.hero_title_part1} <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-rose-400">{t.hero_title_part2}</span>
-                </h1>
-                <p className="text-sm sm:text-base text-gray-300 max-w-2xl mb-8 leading-relaxed">
-                  {t.hero_desc}
-                </p>
-                <div className="flex flex-wrap items-center justify-center md:justify-start gap-4">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const el = document.getElementById('movies-catalog');
-                      el?.scrollIntoView({ behavior: 'smooth' });
-                    }}
-                    className="flex items-center gap-2 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-bold text-sm px-7 py-3 rounded-full shadow-lg shadow-red-600/30 transition-transform active:scale-95 cursor-pointer"
-                  >
-                    <Play className="w-4 h-4 fill-current" />
-                    {t.btn_watch_now}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleTabChange('search')}
-                    className="flex items-center gap-2 bg-white/10 hover:bg-white/15 text-white font-medium text-sm px-6 py-3 rounded-full backdrop-blur-md border border-white/10 transition cursor-pointer"
-                  >
-                    <SearchIcon className="w-4 h-4" />
-                    {t.btn_search}
-                  </button>
-                </div>
-              </div>
-            </section>
+            <Hero />
 
             {/* Continue Watching Section */}
             {continueWatching.length > 0 && (
